@@ -15,7 +15,7 @@ namespace EQUIPO_LINCES_BACKEND.Services
 
         public UsuarioService(IConfiguration configuration)
         {
-            connection = configuration.GetConnectionString("Reto");
+            connection = configuration.GetConnectionString("RETO");
         }
 
         public void InsertUsuario(InsertUsuarioModel usuario)
