@@ -14,6 +14,8 @@ builder.Services.AddSingleton<RutasService>();
 builder.Services.AddSingleton<LoginService>();
 builder.Services.AddSingleton<NotificacionService>();
 builder.Services.AddSingleton<HistorialNotificacionService>();
+builder.Services.AddSingleton<VisitasService>();
+builder.Services.AddSingleton<VisitaProgramdaService>();
 
 builder.Services.AddSingleton<DetallePuntoVentaService>();
 builder.Services.AddSingleton<FeedbackService>();

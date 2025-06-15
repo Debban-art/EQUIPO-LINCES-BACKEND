@@ -15,7 +15,7 @@ namespace EQUIPO_LINCES_BACKEND.Models
     {
         public string Nombre { get; set; }
     }
-    public class UpdateRutasNombre
+    public class UpdateRutasModel
     {
         public int RutaId { get; set; }
         public string Nombre { get; set; }
