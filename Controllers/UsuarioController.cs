@@ -18,29 +18,33 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;
+        private readonly LoginService _loginService;
         Encrypt enc = new Encrypt();
 
-        public UsuarioController(UsuarioService usuarioService)
+        public UsuarioController(UsuarioService usuarioService, LoginService loginService)
         {
             _usuarioService = usuarioService;
+            _loginService = loginService;
 
         }
+        
 
         [HttpPost("InsertUsuario")]
         public IActionResult InsertUsuario([FromBody] InsertUsuarioModel req)
         {
             var objectResponse = Helper.GetStructResponse();
-            try{
+            try
+            {
                 objectResponse.StatusCode = (int)HttpStatusCode.Created;
                 objectResponse.success = true;
                 objectResponse.message = "Usuario creado con exito";
                 string cryptedPass = enc.GetSHA256(req.ContrasenaHash);
                 req.ContrasenaHash = cryptedPass;
                 _usuarioService.InsertUsuario(req);
-            
+
             }
-            catch(Exception ex)
-        
+            catch (Exception ex)
+
             {
                 objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                 objectResponse.success = false;
@@ -54,15 +58,16 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
         public IActionResult GetUsuarios()
         {
             var objectResponse = Helper.GetStructResponse();
-            try{
+            try
+            {
                 objectResponse.StatusCode = (int)HttpStatusCode.OK;
                 objectResponse.success = true;
                 objectResponse.message = "Usuarios cargados correctamente";
                 objectResponse.response = _usuarioService.GetUsuarios();
-            
+
             }
-            catch(Exception ex)
-        
+            catch (Exception ex)
+
             {
                 objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
                 objectResponse.success = false;
@@ -71,6 +76,18 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
 
             return new JsonResult(objectResponse);
         }
+        
+        [HttpPost("login")]
+public IActionResult Login([FromBody] LoginRequestModel model)
+{
+    var usuario = _loginService.LoginUsuario(model.Nombre, model.ContrasenaHash);
+    
+    if (usuario == null)
+        return Unauthorized("Usuario o contraseña incorrectos");
+
+    return Ok(usuario);
+}
+
 
         //  [HttpGet("GetUsuariosById")]
         // public IActionResult GetUsuariosById([FromQuery] int Id)
@@ -83,11 +100,11 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
         //         objectResponse.success = true;
         //         objectResponse.message = "Usuario cargado con exito";
         //         var resultado = _usuarioService.GetUsuariosById(Id);
-                
-                
+
+
 
         //         // Llamando a la función y recibiendo los dos valores.
-                
+
         //          objectResponse.response = resultado;
         //     }
 
@@ -101,7 +118,7 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
         //     return new JsonResult(objectResponse);
         // }
 
-        
+
         // [HttpPut("UpdateUsuario")]
         // public IActionResult UpdateUsuario([FromBody] UpdateUsuarioModel req)
         // {
@@ -113,10 +130,10 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
         //         req.Password = cryptedPass;
         //         objectResponse.message = "Usuario actualizado con exito";
         //         _usuarioService.UpdateUsuario(req);
-            
+
         //     }
         //     catch(Exception ex)
-        
+
         //     {
         //         objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
         //         objectResponse.success = false;
@@ -136,10 +153,10 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
         //         objectResponse.success = true;
         //         objectResponse.message = "Usuario eliminado con exito";
         //         _usuarioService.DeleteUsuario(Id);
-            
+
         //     }
         //     catch(Exception ex)
-        
+
         //     {
         //         objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
         //         objectResponse.success = false;

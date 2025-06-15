@@ -6,7 +6,8 @@ namespace EQUIPO_LINCES_BACKEND.Models
         public string ContrasenaHash {get; set;}
         public string Pais {get; set;}
         public string Estado {get; set;}
-        public string Municipio {get; set;}
+        public string Region { get; set; }
+        public string Municipio { get; set; }
         public string Rol {get; set;}
     }
 
@@ -17,7 +18,8 @@ namespace EQUIPO_LINCES_BACKEND.Models
         public string ContrasenaHash {get; set;}
         public string Pais {get; set;}
         public string Estado {get; set;}
-        public string Municipio {get; set;}
+        public string Region { get; set; }
+        public string Municipio { get; set; }
         public string Rol {get; set;}
 
     }

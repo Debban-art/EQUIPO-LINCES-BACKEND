@@ -27,12 +27,15 @@ namespace EQUIPO_LINCES_BACKEND.Services
             parametros.Add(new SqlParameter {ParameterName="ContrasenaHash", SqlDbType = SqlDbType.NVarChar, Value = usuario.ContrasenaHash});
             parametros.Add(new SqlParameter {ParameterName="Pais", SqlDbType = SqlDbType.NVarChar, Value = usuario.Pais});
             parametros.Add(new SqlParameter {ParameterName="Estado", SqlDbType = SqlDbType.NVarChar, Value = usuario.Estado});
+            parametros.Add(new SqlParameter {ParameterName="Region", SqlDbType = SqlDbType.NVarChar, Value = usuario.Region});
+            parametros.Add(new SqlParameter {ParameterName="Municipio", SqlDbType = SqlDbType.NVarChar, Value = usuario.Municipio});
+            parametros.Add(new SqlParameter {ParameterName="Rol", SqlDbType = SqlDbType.NVarChar, Value = usuario.Rol});
 
             try
             {
-                dac.ExecuteNonQuery("sp_insert_usuario", parametros);
+                dac.ExecuteNonQuery("sp_RegistrarUsuario", parametros);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw ex;
@@ -58,6 +61,7 @@ namespace EQUIPO_LINCES_BACKEND.Services
                             ContrasenaHash = dr["ContrasenaHash"].ToString(),
                             Pais = dr["Pais"].ToString(),
                             Estado = dr["Estado"].ToString(),
+                            Region = dr["Region"].ToString(),
                             Municipio = dr["Municipio"].ToString(),
                             Rol =dr["Rol"].ToString()
                         });

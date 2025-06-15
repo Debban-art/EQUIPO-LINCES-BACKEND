@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddSingleton<UsuarioService>();
+builder.Services.AddSingleton<RutasService>();
+builder.Services.AddSingleton<LoginService>();
+builder.Services.AddSingleton<NotificacionService>();
+builder.Services.AddSingleton<HistorialNotificacionService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
