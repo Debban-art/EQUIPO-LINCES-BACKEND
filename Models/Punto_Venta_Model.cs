@@ -1,29 +1,51 @@
 namespace EQUIPO_LINCES_BACKEND.Models
 {
-    public class InsertTiendaModel
+    public class insert_pv
     {
         public string Nombre { get; set; }
         public string Direccion { get; set; }
-        public double? Latitud { get; set; }
-        public double? Longitud { get; set; }
-        public bool? Activa { get; set; }
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
         public string Region { get; set; }
+        public string UltimaVisita { get; set; }
+        public double NPS { get; set; }
+        public double Fillfoundrate { get; set; }
+        public double DamageRate { get; set; }
+        public double OutOfStock { get; set; }
+        public double ComplaintResolution { get; set; }
     }
 
-    public class GetTiendaModel
+
+    public class get_pv
     {
-        public int Id { get; set; }
+        public int id { get; set; }
         public string Nombre { get; set; }
         public string Direccion { get; set; }
-        public double? Latitud { get; set; }
-        public double? Longitud { get; set; }
-        public bool? Activa { get; set; }
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
         public string Region { get; set; }
-        public DateTime? UltimaVisita { get; set; }
-        public decimal? NPS { get; set; }
-        public decimal? Fillfoundrate { get; set; }
-        public decimal? DamageRate { get; set; }
-        public decimal? OutOfStock { get; set; }
-        public decimal? ComplaintResolution { get; set; }
+        public string UltimaVisita { get; set; }
+        public double NPS { get; set; }
+        public double Fillfoundrate { get; set; }
+        public double DamageRate { get; set; }
+        public double OutOfStock { get; set; }
+        public double ComplaintResolution { get; set; }
+
+    }
+
+    public class delete_pv
+    {
+        public int id { get; set; }
+    }
+
+    public class update_pv
+    {
+        public int id { get; set; }
+        public string UltimaVisita { get; set; }
+        public double NPS { get; set; }
+        public double Fillfoundrate { get; set; }
+        public double DamageRate { get; set; }
+        public double OutOfStock { get; set; }
+        public double ComplaintResolution { get; set; }
     }
 }
