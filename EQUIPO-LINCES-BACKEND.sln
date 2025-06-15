@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EQUIPO-LINCES-BACKEND", "EQUIPO-LINCES-BACKEND.csproj", "{97D13326-75B9-4A26-F545-7153D1D3CF0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97D13326-75B9-4A26-F545-7153D1D3CF0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D13326-75B9-4A26-F545-7153D1D3CF0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D13326-75B9-4A26-F545-7153D1D3CF0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D13326-75B9-4A26-F545-7153D1D3CF0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {112B2AF5-C298-4E7F-A072-2F06A05A4D9B}
+	EndGlobalSection
+EndGlobal
