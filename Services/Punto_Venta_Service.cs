@@ -28,7 +28,7 @@ namespace EQUIPO_LINCES_BACKEND.Services
             List<get_pv> lista = new List<get_pv>();
             try
             {
-                DataSet ds = dac.Fill("[sp_get_pv");
+                DataSet ds = dac.Fill("sp_get_pv");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
 
@@ -45,9 +45,9 @@ namespace EQUIPO_LINCES_BACKEND.Services
                             UltimaVisita = dr["UltimaVisita"].ToString(),
                             NPS = double.Parse(dr["NPS"].ToString()),
                             Fillfoundrate = double.Parse(dr["Fillfoundrate"].ToString()),
-                            DamageRate = double.Parse(dr["DamageRate"].ToString()),
-                            OutOfStock = double.Parse(dr["OutOfStock"].ToString()),
-                            ComplaintResolution = double.Parse(dr["ComplaintResolution"].ToString())
+                            DamageRate = double.Parse(dr["Damage_rate"].ToString()),
+                            OutOfStock = double.Parse(dr["Out_of_stock"].ToString()),
+                            ComplaintResolution = double.Parse(dr["Complaint_resolution"].ToString())
                         });
                     }
                 }
@@ -73,9 +73,9 @@ namespace EQUIPO_LINCES_BACKEND.Services
             parametros.Add(new SqlParameter { ParameterName = "UltimaVisita", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.UltimaVisita });
             parametros.Add(new SqlParameter { ParameterName = "NPS", SqlDbType = SqlDbType.Float, Value = puntos_venta.NPS });
             parametros.Add(new SqlParameter { ParameterName = "Fillfoundrate", SqlDbType = SqlDbType.Float, Value = puntos_venta.Fillfoundrate });
-            parametros.Add(new SqlParameter { ParameterName = "DamageRate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
-            parametros.Add(new SqlParameter { ParameterName = "OutOfStock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
-            parametros.Add(new SqlParameter { ParameterName = "ComplaintResolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
+            parametros.Add(new SqlParameter { ParameterName = "Damage_rate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
+            parametros.Add(new SqlParameter { ParameterName = "Out_of_stock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
+            parametros.Add(new SqlParameter { ParameterName = "Complaint_resolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
 
             try
             {
@@ -97,9 +97,9 @@ namespace EQUIPO_LINCES_BACKEND.Services
             parametros.Add(new SqlParameter { ParameterName = "UltimaVisita", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.UltimaVisita });
             parametros.Add(new SqlParameter { ParameterName = "NPS", SqlDbType = SqlDbType.Float, Value = puntos_venta.NPS });
             parametros.Add(new SqlParameter { ParameterName = "Fillfoundrate", SqlDbType = SqlDbType.Float, Value = puntos_venta.Fillfoundrate });
-            parametros.Add(new SqlParameter { ParameterName = "DamageRate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
-            parametros.Add(new SqlParameter { ParameterName = "OutOfStock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
-            parametros.Add(new SqlParameter { ParameterName = "ComplaintResolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
+            parametros.Add(new SqlParameter { ParameterName = "Damage_rate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
+            parametros.Add(new SqlParameter { ParameterName = "Out_of_stock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
+            parametros.Add(new SqlParameter { ParameterName = "Complaint_resolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
 
             try
             {
