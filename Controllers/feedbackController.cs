@@ -59,13 +59,13 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
             return new JsonResult(response);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetFeedbackById(int id)
+        [HttpGet("FeedbackporUsuario")]
+        public IActionResult GetFeedbackById(int UsuarioId)
         {
             var response = Helper.GetStructResponse();
             try
             {
-                var feedback = _feedbackService.GetFeedbackById(id);
+                var feedback = _feedbackService.GetFeedbackById(UsuarioId);
                 if (feedback == null)
                 {
                     response.StatusCode = (int)HttpStatusCode.NotFound;
@@ -89,25 +89,6 @@ namespace EQUIPO_LINCES_BACKEND.Controllers
             return new JsonResult(response);
         }
 
-        [HttpPost("{id}/analizar")]
-        public IActionResult AnalizarFeedback(int id, [FromBody] AnalisisFeedbackModel model)
-        {
-            var response = Helper.GetStructResponse();
-            try
-            {
-                _feedbackService.AnalizarFeedback(id, model.AnalisisIA);
-                response.StatusCode = (int)HttpStatusCode.OK;
-                response.success = true;
-                response.message = "Feedback analizado correctamente";
-            }
-            catch (Exception ex)
-            {
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.success = false;
-                response.message = ex.Message;
-            }
-
-            return new JsonResult(response);
-        }
+        
     }
 }

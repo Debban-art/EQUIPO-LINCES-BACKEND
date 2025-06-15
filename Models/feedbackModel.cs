@@ -6,6 +6,7 @@ namespace EQUIPO_LINCES_BACKEND.Models
         public int UsuarioId { get; set; }
         public string Tipo { get; set; }
         public string Descripcion { get; set; }
+        public string AnalisisIA { get; set; }
     }
 
     public class GetFeedbackModel
@@ -16,12 +17,8 @@ namespace EQUIPO_LINCES_BACKEND.Models
         public string Tipo { get; set; }
         public string Descripcion { get; set; }
         public string AnalisisIA { get; set; }
-        public DateTime Fecha { get; set; }
+        public string Fecha { get; set; }
     }
 
-    public class AnalisisFeedbackModel
-    {
-        public int FeedbackId { get; set; }
-        public string AnalisisIA { get; set; }
-    }
+
 }
