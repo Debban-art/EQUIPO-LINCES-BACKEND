@@ -20,6 +20,8 @@ builder.Services.AddSingleton<VisitaProgramdaService>();
 builder.Services.AddSingleton<DetallePuntoVentaService>();
 builder.Services.AddSingleton<FeedbackService>();
 builder.Services.AddSingleton<ImagenesVisitaService>();
+builder.Services.AddSingleton<Punto_Venta_Service>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

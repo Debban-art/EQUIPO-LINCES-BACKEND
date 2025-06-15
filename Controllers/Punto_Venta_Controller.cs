@@ -3,174 +3,117 @@ using EQUIPO_LINCES_BACKEND.Models;
 using EQUIPO_LINCES_BACKEND.Services;
 using EQUIPO_LINCES_BACKEND.Helpers;
 using System.Net;
+using EQUIPO_LINCES_BACKEND.Utilities;
 
 namespace EQUIPO_LINCES_BACKEND.Controllers
 {
     [Route("api")]
-    public class TiendaController : ControllerBase
+    public class Punto_Venta_Controller: ControllerBase
     {
-        private readonly TiendaService _service;
+   
+        private readonly Punto_Venta_Service _Punto_Venta_Service;
 
-        public TiendaController(TiendaService service)
-        {
-            _service = service;
+
+        Encrypt enc = new Encrypt();
+
+        public Punto_Venta_Controller(Punto_Venta_Service punto_Venta_Service) {
+            _Punto_Venta_Service = punto_Venta_Service;
+           
+            // Configura la ruta base donde se almacenan los archivos.
+            // Asegúrate de ajustar la ruta según tu estructura de directorios.
+
+            
+            
         }
 
-        [HttpGet("tiendas")]
-        public IActionResult GetTiendas()
+
+        [HttpPost("insert_pv")]
+        public IActionResult insert_pv([FromBody] insert_pv req)
         {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.OK;
-                res.response = _service.GetTiendas();
-                res.message = "Tiendas cargadas";
+            var objectResponse = Helper.GetStructResponse();
+            try{
+                objectResponse.StatusCode = (int)HttpStatusCode.Created;
+                objectResponse.success = true;
+                objectResponse.message = "data creado con exito";
+                _Punto_Venta_Service.insert_pv(req);
+            
             }
-            catch (Exception ex)
+            catch(Exception ex)
+        
             {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.InternalServerError;
-                res.message = ex.Message;
+                objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                objectResponse.success = false;
+                objectResponse.message = ex.Message;
             }
 
-            return new JsonResult(res);
+            return new JsonResult(objectResponse);
         }
 
-        [HttpGet("tiendas/{id}")]
-        public IActionResult GetTiendaById(int id)
+        [HttpGet("get_pv")]
+        public IActionResult get_pv()
         {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                var tienda = _service.GetTiendaById(id);
-                if (tienda == null)
-                {
-                    res.success = false;
-                    res.StatusCode = (int)HttpStatusCode.NotFound;
-                    res.message = "Tienda no encontrada";
-                }
-                else
-                {
-                    res.success = true;
-                    res.StatusCode = (int)HttpStatusCode.OK;
-                    res.response = tienda;
-                    res.message = "Tienda encontrada";
-                }
+            var objectResponse = Helper.GetStructResponse();
+            try{
+                objectResponse.StatusCode = (int)HttpStatusCode.OK;
+                objectResponse.success = true;
+                objectResponse.message = "datos cargados correctamente";
+                objectResponse.response = _Punto_Venta_Service.get_pv();
+            
             }
-            catch (Exception ex)
+            catch(Exception ex)
+        
             {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.InternalServerError;
-                res.message = ex.Message;
+                objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                objectResponse.success = false;
+                objectResponse.message = ex.Message;
             }
 
-            return new JsonResult(res);
+            return new JsonResult(objectResponse);
         }
 
-        [HttpPost("tiendas")]
-        public IActionResult InsertTienda([FromBody] InsertTiendaModel model)
+        
+        [HttpPut("update_pv")]
+        public IActionResult update_pv([FromBody] update_pv req)
         {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                _service.InsertTienda(model);
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.Created;
-                res.message = "Tienda creada";
+            var objectResponse = Helper.GetStructResponse();
+            try{
+                objectResponse.StatusCode = (int)HttpStatusCode.Created;
+                objectResponse.success = true;
+                _Punto_Venta_Service.update_pv(req);
+            
             }
-            catch (Exception ex)
+            catch(Exception ex)
+        
             {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.BadRequest;
-                res.message = ex.Message;
+                objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                objectResponse.success = false;
+                objectResponse.message = ex.Message;
             }
 
-            return new JsonResult(res);
+            return new JsonResult(objectResponse);
         }
 
-        [HttpPut("tiendas/{id}")]
-        public IActionResult UpdateTienda(int id, [FromBody] InsertTiendaModel model)
+
+        [HttpDelete("delete_pv")]
+        public IActionResult delete_pv([FromQuery] int Id)
         {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                _service.UpdateTienda(id, model);
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.OK;
-                res.message = "Tienda actualizada";
+            var objectResponse = Helper.GetStructResponse();
+            try{
+                objectResponse.StatusCode = (int)HttpStatusCode.Created;
+                objectResponse.success = true;
+                objectResponse.message = "data eliminado con exito";
+                _Punto_Venta_Service.delete_pv(Id);
+            
             }
-            catch (Exception ex)
+            catch(Exception ex)
+        
             {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.BadRequest;
-                res.message = ex.Message;
-            }
-
-            return new JsonResult(res);
-        }
-
-        [HttpDelete("tiendas/{id}")]
-        public IActionResult DeleteTienda(int id)
-        {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                _service.DeleteTienda(id);
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.OK;
-                res.message = "Tienda eliminada";
-            }
-            catch (Exception ex)
-            {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.BadRequest;
-                res.message = ex.Message;
+                objectResponse.StatusCode = (int)HttpStatusCode.BadRequest;
+                objectResponse.success = false;
+                objectResponse.message = ex.Message;
             }
 
-            return new JsonResult(res);
-        }
-
-        [HttpPost("tiendas/{id}/imagenes")]
-        public IActionResult UploadImagenes(int id, [FromBody] List<string> imagenes)
-        {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                _service.UploadImagenes(id, imagenes);
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.OK;
-                res.message = "Imágenes cargadas";
-            }
-            catch (Exception ex)
-            {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.BadRequest;
-                res.message = ex.Message;
-            }
-
-            return new JsonResult(res);
-        }
-
-        [HttpGet("tiendas/{id}/resumen")]
-        public IActionResult GetResumen(int id)
-        {
-            var res = Helper.GetStructResponse();
-            try
-            {
-                res.success = true;
-                res.StatusCode = (int)HttpStatusCode.OK;
-                res.response = _service.GetResumen(id);
-                res.message = "Resumen generado";
-            }
-            catch (Exception ex)
-            {
-                res.success = false;
-                res.StatusCode = (int)HttpStatusCode.InternalServerError;
-                res.message = ex.Message;
-            }
-
-            return new JsonResult(res);
+            return new JsonResult(objectResponse);
         }
     }
 }

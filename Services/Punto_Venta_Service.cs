@@ -7,121 +7,127 @@ using EQUIPO_LINCES_BACKEND.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
+
 namespace EQUIPO_LINCES_BACKEND.Services
 {
-    public class TiendaService
+    public class Punto_Venta_Service
     {
+
         private readonly string connection;
 
-        public TiendaService(IConfiguration configuration)
+        public Punto_Venta_Service(IConfiguration configuration)
         {
             connection = configuration.GetConnectionString("RETO");
         }
 
-        public void InsertTienda(InsertTiendaModel model)
+        public List<get_pv> get_pv()
         {
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            ArrayList parametros = new ArrayList
+            get_pv sedes = new get_pv();
+
+            List<get_pv> lista = new List<get_pv>();
+            try
             {
-                new SqlParameter("@Nombre", model.Nombre),
-                new SqlParameter("@Direccion", model.Direccion),
-                new SqlParameter("@Latitud", model.Latitud ?? (object)DBNull.Value),
-                new SqlParameter("@Longitud", model.Longitud ?? (object)DBNull.Value),
-                new SqlParameter("@Activa", model.Activa ?? true),
-                new SqlParameter("@Region", model.Region)
-            };
-
-            dac.ExecuteNonQuery("sp_insert_tienda", parametros);
-        }
-
-        public List<GetTiendaModel> GetTiendas()
-        {
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
-            List<GetTiendaModel> tiendas = new List<GetTiendaModel>();
-            DataSet ds = dac.Fill("sp_get_tiendas");
-
-            foreach (DataRow dr in ds.Tables[0].Rows)
-            {
-                tiendas.Add(new GetTiendaModel
+                DataSet ds = dac.Fill("sp_get_pv");
+                if (ds.Tables[0].Rows.Count > 0)
                 {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    Nombre = dr["Nombre"].ToString(),
-                    Direccion = dr["Direccion"].ToString(),
-                    Latitud = dr["Latitud"] as double?,
-                    Longitud = dr["Longitud"] as double?,
-                    Activa = dr["Activa"] as bool?,
-                    Region = dr["Region"].ToString(),
-                    UltimaVisita = dr["UltimaVisita"] as DateTime?,
-                    NPS = dr["NPS"] as decimal?,
-                    Fillfoundrate = dr["Fillfoundrate"] as decimal?,
-                    DamageRate = dr["Damage_rate"] as decimal?,
-                    OutOfStock = dr["Out_of_stock"] as decimal?,
-                    ComplaintResolution = dr["Complaint_resolution"] as decimal?
-                });
+
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        lista.Add(new get_pv
+                        {
+                            id = int.Parse(dr["id"].ToString()),
+                            Nombre = dr["Nombre"].ToString(),
+                            Direccion = dr["Direccion"].ToString(),
+                            Latitud = double.Parse(dr["Latitud"].ToString()),
+                            Longitud = double.Parse(dr["Longitud"].ToString()),
+                            Region = dr["Region"].ToString(),
+                            UltimaVisita = dr["UltimaVisita"].ToString(),
+                            NPS = double.Parse(dr["NPS"].ToString()),
+                            Fillfoundrate = double.Parse(dr["Fillfoundrate"].ToString()),
+                            DamageRate = double.Parse(dr["Damage_rate"].ToString()),
+                            OutOfStock = double.Parse(dr["Out_of_stock"].ToString()),
+                            ComplaintResolution = double.Parse(dr["Complaint_resolution"].ToString())
+                        });
+                    }
+                }
             }
-
-            return tiendas;
-        }
-
-        public GetTiendaModel GetTiendaById(int id)
-        {
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
-            ArrayList parametros = new ArrayList { new SqlParameter("@Id", id) };
-            DataSet ds = dac.Fill("sp_get_tienda_by_id", parametros);
-
-            if (ds.Tables[0].Rows.Count == 0) return null;
-
-            DataRow dr = ds.Tables[0].Rows[0];
-            return new GetTiendaModel
+            catch (Exception ex)
             {
-                Id = Convert.ToInt32(dr["Id"]),
-                Nombre = dr["Nombre"].ToString(),
-                Direccion = dr["Direccion"].ToString(),
-                Latitud = dr["Latitud"] as double?,
-                Longitud = dr["Longitud"] as double?,
-                Activa = dr["Activa"] as bool?,
-                Region = dr["Region"].ToString(),
-                UltimaVisita = dr["UltimaVisita"] as DateTime?,
-                NPS = dr["NPS"] as decimal?,
-                Fillfoundrate = dr["Fillfoundrate"] as decimal?,
-                DamageRate = dr["Damage_rate"] as decimal?,
-                OutOfStock = dr["Out_of_stock"] as decimal?,
-                ComplaintResolution = dr["Complaint_resolution"] as decimal?
-            };
+                throw ex;
+                Console.WriteLine(ex.Message);
+            }
+            return lista;
         }
 
-        public void UpdateTienda(int id, InsertTiendaModel model)
+        public void insert_pv(insert_pv puntos_venta)
         {
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            ArrayList parametros = new ArrayList
+            ArrayList parametros = new ArrayList();
+
+            parametros.Add(new SqlParameter { ParameterName = "Nombre", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.Nombre });
+            parametros.Add(new SqlParameter { ParameterName = "Direccion", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.Direccion });
+            parametros.Add(new SqlParameter { ParameterName = "Latitud", SqlDbType = SqlDbType.Float, Value = puntos_venta.Latitud });
+            parametros.Add(new SqlParameter { ParameterName = "Longitud", SqlDbType = SqlDbType.Float, Value = puntos_venta.Longitud });
+            parametros.Add(new SqlParameter { ParameterName = "Region", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.Region });
+            parametros.Add(new SqlParameter { ParameterName = "UltimaVisita", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.UltimaVisita });
+            parametros.Add(new SqlParameter { ParameterName = "NPS", SqlDbType = SqlDbType.Float, Value = puntos_venta.NPS });
+            parametros.Add(new SqlParameter { ParameterName = "Fillfoundrate", SqlDbType = SqlDbType.Float, Value = puntos_venta.Fillfoundrate });
+            parametros.Add(new SqlParameter { ParameterName = "Damage_rate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
+            parametros.Add(new SqlParameter { ParameterName = "Out_of_stock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
+            parametros.Add(new SqlParameter { ParameterName = "Complaint_resolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
+
+            try
             {
-                new SqlParameter("@Id", id),
-                new SqlParameter("@Nombre", model.Nombre),
-                new SqlParameter("@Direccion", model.Direccion),
-                new SqlParameter("@Latitud", model.Latitud ?? (object)DBNull.Value),
-                new SqlParameter("@Longitud", model.Longitud ?? (object)DBNull.Value),
-                new SqlParameter("@Activa", model.Activa ?? true),
-                new SqlParameter("@Region", model.Region)
-            };
-
-            dac.ExecuteNonQuery("sp_update_tienda", parametros);
+                dac.ExecuteNonQuery("sp_insert_pv", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        public void DeleteTienda(int id)
+        public void update_pv(update_pv puntos_venta)
         {
             ConexionDataAccess dac = new ConexionDataAccess(connection);
-            ArrayList parametros = new ArrayList { new SqlParameter("@Id", id) };
-            dac.ExecuteNonQuery("sp_delete_tienda", parametros);
+            ArrayList parametros = new ArrayList();
+
+            parametros.Add(new SqlParameter { ParameterName = "id", SqlDbType = SqlDbType.Int, Value = puntos_venta.id });
+            parametros.Add(new SqlParameter { ParameterName = "UltimaVisita", SqlDbType = SqlDbType.NVarChar, Value = puntos_venta.UltimaVisita });
+            parametros.Add(new SqlParameter { ParameterName = "NPS", SqlDbType = SqlDbType.Float, Value = puntos_venta.NPS });
+            parametros.Add(new SqlParameter { ParameterName = "Fillfoundrate", SqlDbType = SqlDbType.Float, Value = puntos_venta.Fillfoundrate });
+            parametros.Add(new SqlParameter { ParameterName = "Damage_rate", SqlDbType = SqlDbType.Float, Value = puntos_venta.DamageRate });
+            parametros.Add(new SqlParameter { ParameterName = "Out_of_stock", SqlDbType = SqlDbType.Float, Value = puntos_venta.OutOfStock });
+            parametros.Add(new SqlParameter { ParameterName = "Complaint_resolution", SqlDbType = SqlDbType.Float, Value = puntos_venta.ComplaintResolution });
+
+            try
+            {
+                dac.ExecuteNonQuery("sp_update_pv", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        // Métodos simulados para imágenes y resumen
-        public void UploadImagenes(int tiendaId, List<string> imagenes) { /* Simular o integrar almacenamiento */ }
-
-        public object GetResumen(int tiendaId) => new
+      public void delete_pv(int id)
         {
-            promedioNPS = 8.7,
-            actividad = "Activa",
-            sugerenciasIA = "Colocar señalización más visible, reducir tiempos de espera"
-        };
+            ConexionDataAccess dac = new ConexionDataAccess(connection);
+            ArrayList parametros = new ArrayList();
+            parametros.Add(new SqlParameter { ParameterName = "Id", SqlDbType = SqlDbType.Int, Value = id });
+
+
+            try
+            {
+                dac.ExecuteNonQuery("sp_delete_dpv", parametros);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                Console.WriteLine(ex.Message);  
+            }
+        }
     }
 }
