@@ -17,6 +17,7 @@ builder.Services.AddSingleton<HistorialNotificacionService>();
 
 builder.Services.AddSingleton<DetallePuntoVentaService>();
 builder.Services.AddSingleton<FeedbackService>();
+builder.Services.AddSingleton<ImagenesVisitaService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
