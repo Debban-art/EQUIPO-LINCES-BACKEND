@@ -1,24 +1,15 @@
 using EQUIPO_LINCES_BACKEND.Settings;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using EQUIPO_LINCES_BACKEND.Data;
+using EQUIPO_LINCES_BACKEND.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.Configure<MongoDBSettings>(
-    builder.Configuration.GetSection("MongoDB")
-);
 
-builder.Services.AddSingleton<IMongoClient>(sp =>
-{
-    var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
-    return new MongoClient(settings.ConnectionString);
-});
 
-builder.Services.AddSingleton<MongoDbContext>();
-
+builder.Services.AddSingleton<UsuarioService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
