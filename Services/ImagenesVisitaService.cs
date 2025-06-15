@@ -25,7 +25,7 @@ namespace EQUIPO_LINCES_BACKEND.Services
 
             try
             {
-                DataSet ds = dac.Fill("sp_get_imagenes_visita");
+                DataSet ds = dac.Fill("sp_ObtenerImagenesPorVisita");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -82,7 +82,7 @@ namespace EQUIPO_LINCES_BACKEND.Services
 
             try
             {
-                dac.ExecuteNonQuery("sp_actualizar_analisis_imagen", parametros);
+                dac.ExecuteNonQuery("sp_ActualizarAnalisisImagen", parametros);
             }
             catch (Exception ex)
             {

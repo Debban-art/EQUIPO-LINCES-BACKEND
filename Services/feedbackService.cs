@@ -25,21 +25,22 @@ namespace EQUIPO_LINCES_BACKEND.Services
                 new SqlParameter("Id_PuntoVenta", feedback.Id_PuntoVenta),
                 new SqlParameter("UsuarioId", feedback.UsuarioId),
                 new SqlParameter("Tipo", feedback.Tipo),
-                new SqlParameter("Descripcion", feedback.Descripcion)
+                new SqlParameter("Descripcion", feedback.Descripcion),
+                new SqlParameter("AnalisisIA", feedback.AnalisisIA)
             };
 
-            dac.ExecuteNonQuery("sp_insert_feedback", parametros);
+            dac.ExecuteNonQuery("sp_CrearFeedback", parametros);
         }
 
-        public List<GetFeedbackModel> GetFeedbacksByTienda(int tiendaId)
+        public List<GetFeedbackModel> GetFeedbacksByTienda(int Id_PuntoVenta)
         {
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             ArrayList parametros = new ArrayList {
-                new SqlParameter("Id_PuntoVenta", tiendaId)
+                new SqlParameter("Id_PuntoVenta", Id_PuntoVenta)
             };
 
             List<GetFeedbackModel> lista = new List<GetFeedbackModel>();
-            DataSet ds = dac.Fill("sp_get_feedback_by_tienda", parametros);
+            DataSet ds = dac.Fill("sp_ObtenerFeedbackPorTienda", parametros);
 
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
@@ -50,22 +51,22 @@ namespace EQUIPO_LINCES_BACKEND.Services
                     UsuarioId = Convert.ToInt32(dr["UsuarioId"]),
                     Tipo = dr["Tipo"].ToString(),
                     Descripcion = dr["Descripcion"].ToString(),
-                    AnalisisIA = dr["AnalisisIA"]?.ToString(),
-                    Fecha = Convert.ToDateTime(dr["Fecha"])
+                    AnalisisIA = dr["AnalisisIA"].ToString(),
+                    Fecha = dr["Fecha"].ToString()
                 });
             }
 
             return lista;
         }
 
-        public GetFeedbackModel GetFeedbackById(int id)
+        public GetFeedbackModel GetFeedbackById(int UsuarioId)
         {
             ConexionDataAccess dac = new ConexionDataAccess(connection);
             ArrayList parametros = new ArrayList {
-                new SqlParameter("FeedbackId", id)
+                new SqlParameter("UsuarioId", UsuarioId)
             };
 
-            DataSet ds = dac.Fill("sp_get_feedback_by_id", parametros);
+            DataSet ds = dac.Fill("sp_ObtenerFeedbackPorUsuario", parametros);
             if (ds.Tables[0].Rows.Count == 0) return null;
 
             var dr = ds.Tables[0].Rows[0];
@@ -76,20 +77,11 @@ namespace EQUIPO_LINCES_BACKEND.Services
                 UsuarioId = Convert.ToInt32(dr["UsuarioId"]),
                 Tipo = dr["Tipo"].ToString(),
                 Descripcion = dr["Descripcion"].ToString(),
-                AnalisisIA = dr["AnalisisIA"]?.ToString(),
-                Fecha = Convert.ToDateTime(dr["Fecha"])
+                AnalisisIA = dr["AnalisisIA"].ToString(),
+                Fecha = dr["Fecha"].ToString()
             };
         }
 
-        public void AnalizarFeedback(int id, string analisis)
-        {
-            ConexionDataAccess dac = new ConexionDataAccess(connection);
-            ArrayList parametros = new ArrayList {
-                new SqlParameter("FeedbackId", id),
-                new SqlParameter("AnalisisIA", analisis)
-            };
-
-            dac.ExecuteNonQuery("sp_analizar_feedback", parametros);
-        }
+      
     }
 }
